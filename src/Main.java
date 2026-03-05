@@ -56,16 +56,19 @@ class LCGRandom extends Random {
 		x = 1;
 	}
 
-	/** Seed the generator. */
-	void seed(long x) {
-		this.x = x;
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public synchronized void setSeed(long seed) {
+		x = seed;
 	}
 
 	/** Get next integer in range [0, limit). */
 	@Override
 	public int nextInt(int limit) {
 		x = (a * x + c) % m;
-		return (int) x;
+		return (int) (x % limit);
 	}
 }
 
@@ -74,8 +77,8 @@ class Main {
 	/** Free spins helper class. Only keeps information of free spin properties. */
 	private static class FreeSpin {
 		public int freeGamesNumber = 0;
-		public int[][] reels = {};
-		public int[][] wilds = {};
+		public int[][] reels = {{}};
+		public int[][] wilds = {{}};
 
 		public FreeSpin(int freeGamesNumber, int[][] reels, int[][] wilds) {
 			this.freeGamesNumber = freeGamesNumber;
@@ -893,7 +896,10 @@ class Main {
 
 		/* Support seed for LCG checking mode. */
 		if (lcgCheck == true) {
-			((LCGRandom) lcg).seed(Math.abs(secure.nextInt()));
+			((LCGRandom) lcg).setSeed(Math.abs(secure.nextLong()));
+			prng = lcg;
+		} else {
+			prng = secure;
 		}
 
 		/* Spin reels. */
