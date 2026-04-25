@@ -733,27 +733,27 @@ class Main {
 			}
 		} else if (numberOfScatters >= 3 && freeGamesList.size() > 0) {
 			int next = -1;
-			if (freeGamesList.get(freeGamesList.size() - 1).reels == reels[1]) {
+			if (freeGamesList.getLast().reels == reels[1]) {
 				next = 2;
-			} else if (freeGamesList.get(freeGamesList.size() - 1).reels == reels[2]) {
+			} else if (freeGamesList.getLast().reels == reels[2]) {
 				next = 3;
 			} else {
 				next = 3;
 			}
 
 			int distributionIndex = -1;
-			if (freeGamesList.get(freeGamesList.size() - 1).reels == reels[1]) {
+			if (freeGamesList.getLast().reels == reels[1]) {
 				distributionIndex = 1;
-			} else if (freeGamesList.get(freeGamesList.size() - 1).reels == reels[2]) {
+			} else if (freeGamesList.getLast().reels == reels[2]) {
 				distributionIndex = 2;
-			} else if (freeGamesList.get(freeGamesList.size() - 1).reels == reels[3]) {
+			} else if (freeGamesList.getLast().reels == reels[3]) {
 				distributionIndex = 3;
 			}
 
-			int freeGamesNumber = scatterDistritutions[distributionIndex][prng
-					.nextInt(scatterDistritutions[distributionIndex].length)];
+			int lastNumber = freeGamesList.getLast().freeGamesNumber;
+			int freeGamesNumber = scatterDistritutions[distributionIndex][prng.nextInt(scatterDistritutions[distributionIndex].length)];
 			for (int i = 0; i < freeGamesNumber; i++) {
-				freeGamesList.add(new FreeSpin((i + 1), reels[next], wildsSets[4 + next][numberOfWilds]));
+				freeGamesList.add(new FreeSpin((lastNumber + i + 1), reels[next], wildsSets[4 + next][numberOfWilds]));
 			}
 		}
 	}
@@ -858,7 +858,7 @@ class Main {
 		 * Spin reels. In re-triggered games from FS1 to FS2 and from FS2 to FS3. FS3
 		 * can not re-trigger FS.
 		 */
-		spin(freeGamesList.get(0).reels);
+		spin(freeGamesList.getFirst().reels);
 
 		freeGamesSetup();
 
@@ -942,7 +942,7 @@ class Main {
 
 			singleFreeGame();
 
-			freeGamesList.remove(0);
+			freeGamesList.removeFirst();
 		}
 		freeGamesMultiplier = 1;
 		freeGamesList.clear();
@@ -1136,7 +1136,7 @@ class Main {
 		Collections.sort(keys = new ArrayList<Integer>(baseWinsHistogram.keySet()));
 		for (Integer key : keys) {
 			double reduced = (double) key / (double) totalBet;
-			double rtp = (double) wonMoney / (double) lostMoney;
+			double rtp = (double) baseMoney / (double) lostMoney;
 			double probability = (double) baseWinsHistogram.get(key) / (double) totalNumberOfGames;
 			double deviation = probability * (reduced - rtp) * (reduced - rtp);
 
