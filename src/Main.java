@@ -67,7 +67,7 @@ class LCGRandom extends Random {
 	/** Get next integer in range [0, limit). */
 	@Override
 	public int nextInt(int limit) {
-		x = (a * x + c) % m;
+		x = ((a * x + c) & 0xFFFFFFFFL) % m;
 		return (int) (x % limit);
 	}
 }

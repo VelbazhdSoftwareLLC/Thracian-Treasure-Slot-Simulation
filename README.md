@@ -20,7 +20,9 @@ astyle *.java --indent=force-tab --style=java / -A2 --recursive
 
 Volatility in slot machine models is primarily calculated as the **Standard Deviation ($\\sigma$)** of the game's payout distribution. While mathematical "Volatility" is a raw statistical value, the 1-to-5 star rating used by developers (like Pragmatic Play) is a **normalized score** that weights several factors including win frequency and maximum win potential. \[1, 2\]
 
-### **1\. Calculate the Base Mathematical Volatility**
+### ---
+
+**1\. Calculate the Base Mathematical Volatility**
 
 To find the core volatility, you must calculate the standard deviation of all possible outcomes. If you are simulating the game, run at least **1 million spins** to get a stable result. \[2\]
 
